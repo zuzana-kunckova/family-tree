@@ -38,9 +38,15 @@ class SeedSomeData extends Command
      */
     public function handle(Session $client)
     {
-        $cypher = "CREATE (ZuzanaK:Person {name:'Zuzana K.'})
-    CREATE (ZsMom:Person {name:'Z Mom'})
-    CREATE (ZsMom)-[:PARENT_OF]->(ZuzanaK)";
+        $cypher = "CREATE (Adam:Person {name:'Adam'})
+    CREATE (Eve:Person {name:'Eve'})
+    CREATE (Eve)-[:MARRIED_TO]->(Adam)
+    CREATE (Cain:Person {name:'Cain'})
+    CREATE (Abel:Person {name:'Abel'})
+    CREATE (Cain)-[:CHILD_OF]->(Adam)
+    CREATE (Cain)-[:CHILD_OF]->(Eve)
+    CREATE (Abel)-[:CHILD_OF]->(Adam)
+    CREATE (Abel)-[:CHILD_OF]->(Eve)";
         $client->run($cypher);
 
         $result = $client->run('MATCH (p:Person {}) RETURN p');
