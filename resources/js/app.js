@@ -28,4 +28,6 @@ function draw() {
     viz.render();
 }
 
-window.onload = draw;
+if (document.getElementById('viz')) {
+    window.onload = draw;
+}
