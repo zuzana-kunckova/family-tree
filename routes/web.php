@@ -11,12 +11,11 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
+
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'people', 'as' => 'people.'], function () {
     Route::get('/', 'PeopleController@index')->name('index');
@@ -25,6 +24,4 @@ Route::group(['prefix' => 'people', 'as' => 'people.'], function () {
     Route::get('create', 'PeopleController@create')->name('create');
 });
 
-Route::get('/graph', function(){
-    return view('graph');
-});
+Route::view('graph', 'graph');
