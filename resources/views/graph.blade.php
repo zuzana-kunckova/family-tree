@@ -1,4 +1,4 @@
-@extends('layouts.graph')
+@extends('layouts.app')
 
 @section('content')
     <h1>Graph</h1>

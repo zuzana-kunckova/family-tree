@@ -12,6 +12,8 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
+    <script src="https://rawgit.com/neo4j-contrib/neovis.js/master/dist/neovis.js"></script>
 </head>
 
 <body class="bg-gray-100 h-screen antialiased leading-none">
@@ -50,6 +52,37 @@
 
     <!-- Scripts -->
     <script src="{{ mix('js/app.js') }}"></script>
+    <script type="text/javascript">
+        var viz;
+
+        function draw() {
+            var config = {
+                container_id: "viz",
+                server_url: "bolt://localhost:7687",
+                server_user: "neo4j",
+                server_password: "password",
+                labels: {
+                    "Person": {
+                        caption: "name",
+                        size: "pagerank", // size of the node relative to the pagerank property
+                        community: "community" // different communities have different colours
+                    }
+                },
+                relationships: {
+                    "MARRIED_TO": {
+                        thickness: "weight",
+                        caption: true,
+                    }
+                },
+                initial_cypher: "MATCH p=()-[r:MARRIED_TO]->() MATCH (n) RETURN p, n"
+            };
+
+            viz = new NeoVis.default(config);
+            viz.render();
+        }
+
+        window.onload = draw;
+    </script>
 </body>
 
 </html>
