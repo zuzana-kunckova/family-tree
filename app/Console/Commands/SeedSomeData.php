@@ -75,7 +75,13 @@ class SeedSomeData extends Command
                 $cypher = "
             MERGE (adam:Person {name:'Adam'})
             MERGE (eve:Person {name:'Eve'})
-            MERGE (eve)-[:MARRIED_TO]->(adam)";
+            MERGE (cain:Person {name:'Cain'})
+            MERGE (abel:Person {name:'Abel'})
+            MERGE (eve)-[:MARRIED_TO]->(adam)
+            MERGE (cain)-[:CHILD_OF]->(adam)
+            MERGE (cain)-[:CHILD_OF]->(eve)
+            MERGE (abel)-[:CHILD_OF]->(adam)
+            MERGE (abel)-[:CHILD_OF]->(eve)";
                 $client->run($cypher);
 
         // @todo handle relationships

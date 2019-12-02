@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Person;
 use GraphAware\Bolt\Protocol\V1\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class PeopleController extends Controller
 {
@@ -49,16 +50,23 @@ class PeopleController extends Controller
      */
     public function show(Person $person)
     {
-        $person = app(Session::class)
-            ->run("MATCH (p:Person {eloquentId:'" . $person->id . "'}) RETURN p")
-            ->firstRecord();
+        $results = app(Session::class)
+            ->run("MATCH (p:Person)-[]-(friends) WHERE p.eloquentId = \"{$person->id}\" RETURN p, friends")
+            ->getRecords();
 
-            dd($person);
-        // @todo find all relationships to $person
+        $first = Arr::first($results);
+        $personKey = array_search('p', $first->keys());
+        $friendKey = array_search('friends', $first->keys());
+
+        $person = $first->values()[$personKey];
+
+        $friends = collect($results)->map(function ($result) use ($friendKey) {
+            return $result->values()[$friendKey];
+        })->toArray();
 
         return view('people.show', [
             'person' => $person,
-            'relationships' => ['@todo'],
+            'relationships' => $friends,
         ]);
     }
 

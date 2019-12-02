@@ -19,7 +19,7 @@
             <div class="w-full p-6">
                 Relationships:<br>
                 @foreach ($relationships as $relationship)
-                    &bull; @dd($relationship)
+                    &bull; {{ $relationship->name }} @todo figure out how to show HOW they are related<br>
                 @endforeach
             </div>
         </div>
