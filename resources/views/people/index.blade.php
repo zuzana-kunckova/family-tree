@@ -16,6 +16,12 @@
                 People
             </div>
 
+            @auth
+            <div>
+                <a href="{{ route('people.create') }}">Create Person</a> (@todo style this better later)
+            </div>
+            @endauth
+
             <div class="w-full p-6">
                 @foreach ($people as $person)
                     &bull; <a href="{{ route('people.show', $person) }}">{{ $person->name }}</a><br>

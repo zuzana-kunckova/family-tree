@@ -20,6 +20,9 @@
                     <p class="text-gray-700">
                         You are logged in!
                     </p>
+                    <p class="mt-4">
+                        <a href="{{ route('people.create') }}">Create a person</a>
+                    </p>
                 </div>
             </div>
         </div>

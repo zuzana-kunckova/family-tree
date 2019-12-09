@@ -1,6 +1,8 @@
 <?php
 
+use App\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Artisan;
 
 class DatabaseSeeder extends Seeder
 {
@@ -11,6 +13,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        factory(User::class)->create([
+            'email' => 'matt@tighten.co',
+            'password' => bcrypt('password'),
+        ]);
+
+        Artisan::call('seedsomedata');
         // $this->call(UsersTableSeeder::class);
     }
 }
