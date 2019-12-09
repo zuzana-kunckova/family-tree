@@ -64,6 +64,7 @@ class SeedSomeData extends Command
             'Eve',
             'Cain',
             'Abel',
+            'Josefina',
         ];
 
         foreach ($names as $name) {
@@ -77,7 +78,10 @@ class SeedSomeData extends Command
             MERGE (eve:Person {name:'Eve'})
             MERGE (cain:Person {name:'Cain'})
             MERGE (abel:Person {name:'Abel'})
+            MERGE (josefina:Person {name:'Josefina'})
             MERGE (eve)-[:MARRIED_TO]->(adam)
+            MERGE (josefina)-[:CHILD_OF]->(adam)
+            MERGE (josefina)-[:CHILD_OF]->(eve)
             MERGE (cain)-[:CHILD_OF]->(adam)
             MERGE (cain)-[:CHILD_OF]->(eve)
             MERGE (abel)-[:CHILD_OF]->(adam)

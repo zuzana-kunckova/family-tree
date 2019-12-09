@@ -17,9 +17,15 @@
             </div>
 
             <div class="w-full p-6">
-                Relationships:<br>
+                Relationships:<br><br>
                 @foreach ($relationships as $relationship)
-                    &bull; {{ $relationship->name }} @todo figure out how to show HOW they are related<br>
+                &bull; {{ $relationship->name }} @todo figure out how to show HOW they are related<br>
+                @endforeach
+                <br><br>
+
+                Siblings:<br><br>
+                @foreach ($siblings as $sibling)
+                &bull; {{ $sibling->name }} @todo figure out how to show HOW they are related<br>
                 @endforeach
             </div>
         </div>

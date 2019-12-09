@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Person;
-use GraphAware\Bolt\Protocol\V1\Session;
+use GraphAware\Bolt\Protocol\V1\Session as Neo4j;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 
@@ -50,23 +50,22 @@ class PeopleController extends Controller
      */
     public function show(Person $person)
     {
-        $results = app(Session::class)
-            ->run("MATCH (p:Person)-[]-(friends) WHERE p.eloquentId = \"{$person->id}\" RETURN p, friends")
-            ->getRecords();
+        $results = app(Neo4j::class)
+            ->run("MATCH (p:Person)-[]-(friend) WHERE p.eloquentId = \"{$person->id}\" RETURN p, collect(friend) as friends")
+            ->firstRecord();
 
-        $first = Arr::first($results);
-        $personKey = array_search('p', $first->keys());
-        $friendKey = array_search('friends', $first->keys());
+        $personKey = array_search('p', $results->keys());
+        $friendKey = array_search('friends', $results->keys());
 
-        $person = $first->values()[$personKey];
-
-        $friends = collect($results)->map(function ($result) use ($friendKey) {
-            return $result->values()[$friendKey];
-        })->toArray();
+        $siblings = app(Neo4j::class)
+            ->run("MATCH (p:Person)-[:CHILD_OF]-(parent)-[:CHILD_OF]-(sibling) WHERE p.eloquentId = \"{$person->id}\"
+            RETURN collect(sibling) as siblings")
+            ->firstRecord();
 
         return view('people.show', [
-            'person' => $person,
-            'relationships' => $friends,
+            'person' => $results->values()[$personKey],
+            'relationships' => $results->values()[$friendKey],
+            'siblings' => $siblings->values()[0],
         ]);
     }
 
