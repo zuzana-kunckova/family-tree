@@ -38,7 +38,7 @@ class SeedSomeData extends Command
         $id = Person::create(['name' => $name])->id;
 
         // Insert into neo4j and link to eloquent
-        $cypher = "CREATE (Adam:Person {name:'" . $name . "',eloquentId:'" . $id . "'})";
+        $cypher = "CREATE (This:Person {name:'" . $name . "',eloquentId:" . $id . "})";
         $this->client->run($cypher);
     }
 
