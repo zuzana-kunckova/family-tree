@@ -1,5 +1,19 @@
 require('./bootstrap');
 
+/** VUE */
+window.Vue = require('vue');
+
+import CreatePerson from './components/CreatePerson.vue';
+
+const app = new Vue({
+    components: {
+        'create-person': CreatePerson,
+    },
+    el: '#app',
+});
+
+/** NEO-VIS */
+
 import Neovis from 'neovis.js';
 
 var viz;
