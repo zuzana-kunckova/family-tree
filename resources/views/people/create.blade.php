@@ -13,7 +13,7 @@
         <div class="flex flex-col break-words bg-white border border-2 rounded shadow-md">
 
             <div class="font-semibold bg-gray-200 text-gray-700 py-3 px-6 mb-0">
-                People: create
+                Create new Person
             </div>
 
             <div class="w-full p-6">
@@ -24,7 +24,26 @@
                         <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
                             Name
                         </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Name">
+                        <input class="shadow appearance-none border rounded w-1/3 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="name" type="text" name="name" placeholder="Name">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="relationship">
+                            Relationship
+                        </label>
+                        <select name="relationship" id="relationship" class="block appearance-none w-1/3 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 mb-4 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            <option>Parent</option>
+                            <option>Sibling</option>
+                            <option>Child</option>
+                            <option>Spouse</option>
+                        </select>
+
+                        &nbsp; of
+                        
+                        <select name="person" id="person" class="block appearance-none w-1/3 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 mt-4 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                            @foreach ($people ?? '' as $person)
+                            &bull; <option>{{ $person->name }}</option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">

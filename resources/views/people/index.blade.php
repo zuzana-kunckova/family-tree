@@ -17,14 +17,14 @@
             </div>
 
             @auth
-            <div>
-                <a href="{{ route('people.create') }}">Create Person</a> (@todo style this better later)
+            <div class="p-6 pb-0">
+                <a href="{{ route('people.create') }}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Create New Person</a>
             </div>
             @endauth
 
-            <div class="w-full p-6">
+            <div class="w-full p-6 leading-snug">
                 @foreach ($people as $person)
-                    &bull; <a href="{{ route('people.show', $person) }}">{{ $person->name }}</a><br>
+                    &bull; <a href="{{ route('people.show', $person) }}" class="underline">{{ $person->name }}</a><br>
                 @endforeach
             </div>
         </div>

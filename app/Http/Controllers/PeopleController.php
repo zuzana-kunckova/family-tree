@@ -28,7 +28,9 @@ class PeopleController extends Controller
      */
     public function create()
     {
-        return view('people.create');
+        return view('people.create',[
+            'people' => Person::all(),
+        ]);
     }
 
     /**
@@ -37,9 +39,24 @@ class PeopleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Neo4j $client)
     {
-        dd($request->all());
+        $this->validate($request, array(
+            'name' => 'required',
+            'relationship' => 'required',
+            'person' => 'required',
+        ));
+
+        $person = new Person;
+        $person->name = $request->name;
+        $person->id = Person::create(['name' => $person->name])->id;
+        $person->relationship = $request->relationship;
+        $person->person = $request->person;
+
+        $cypher = "CREATE ($person->name:Person {name:'" . $person->name . "',eloquentId:'" . $person->id . "'})";
+        $client->run($cypher);
+        
+        return redirect()->route('people.index');
     }
 
     /**
@@ -68,6 +85,8 @@ class PeopleController extends Controller
             'siblings' => $siblings->values()[0],
         ]);
     }
+
+    
 
     /**
      * Show the form for editing the specified resource.
