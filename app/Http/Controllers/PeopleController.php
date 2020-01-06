@@ -50,7 +50,6 @@ class PeopleController extends Controller
 
         $relationship = [
             'Parent' => '@todo',
-            'Sibling' => '@todo',
             'Child' => 'CHILD_OF',
             'Spouse' => 'MARRIED_TO',
         ][$request->relationship];

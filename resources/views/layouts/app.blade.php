@@ -25,7 +25,9 @@
                         </a>
                     </div>
                     <div class="flex-1 text-right">
+                        <a href="{{ route('graph') }}" class="no-underline hover:underline text-gray-300 text-sm p-3">Graph</a>
                         <a href="{{ route('people.index') }}" class="no-underline hover:underline text-gray-300 text-sm p-3">People</a>
+                        <a href="{{ route('people.create') }}" class="no-underline hover:underline text-gray-300 text-sm p-3">+Person</a>
                         @guest
                         <a class="no-underline hover:underline text-gray-300 text-sm p-3" href="{{ route('login') }}">{{ __('Login') }}</a>
                         @if (Route::has('register'))

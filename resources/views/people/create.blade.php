@@ -32,7 +32,6 @@
                         </label>
                         <select name="relationship" id="relationship" class="block appearance-none w-1/3 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 mb-4 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
                             <option>Parent</option>
-                            <option>Sibling</option>
                             <option>Child</option>
                             <option>Spouse</option>
                         </select>

@@ -24,4 +24,4 @@ Route::group(['prefix' => 'people', 'as' => 'people.'], function () {
     Route::get('{person}', 'PeopleController@show')->name('show');
 });
 
-Route::view('graph', 'graph');
+Route::view('graph', 'graph')->name('graph');
