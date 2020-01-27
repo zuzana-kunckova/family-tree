@@ -2782,6 +2782,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: {
     'people': {
@@ -2794,7 +2807,12 @@ __webpack_require__.r(__webpack_exports__);
       relationshipType: null
     };
   },
-  methods: {}
+  methods: {},
+  computed: {
+    addingTwo: function addingTwo() {
+      return this.relationshipType === 'CHILD_OF';
+    }
+  }
 });
 
 /***/ }),
@@ -44209,18 +44227,14 @@ var render = function() {
         [
           _c("option"),
           _vm._v(" "),
-          _c("option", [_vm._v("Parent")]),
+          _c("option", { attrs: { value: "PARENT_OF" } }, [_vm._v("Parent")]),
           _vm._v(" "),
-          _c("option", [_vm._v("Child")]),
+          _c("option", { attrs: { value: "CHILD_OF" } }, [_vm._v("Child")]),
           _vm._v(" "),
-          _c("option", [_vm._v("Spouse")])
+          _c("option", { attrs: { value: "MARRIED_TO" } }, [_vm._v("Spouse")])
         ]
       ),
-      _vm._v(
-        "\n\n          of\n        " +
-          _vm._s(_vm.relationshipType) +
-          "\n\n        "
-      ),
+      _vm._v("\n\n        of\n\n        "),
       _c(
         "select",
         {
@@ -44240,7 +44254,40 @@ var render = function() {
           )
         }),
         0
-      )
+      ),
+      _vm._v(" "),
+      _vm.addingTwo
+        ? _c("span", { staticClass: "block mt-4" }, [_vm._v("and")])
+        : _vm._e(),
+      _vm._v(" "),
+      _vm.addingTwo
+        ? _c(
+            "select",
+            {
+              staticClass:
+                "block appearance-none w-1/3 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 mt-4 rounded shadow leading-tight focus:outline-none focus:shadow-outline",
+              attrs: { name: "related_to_2", id: "related_to_2" }
+            },
+            [
+              _c("option"),
+              _vm._v(" "),
+              _vm._l(_vm.people, function(person) {
+                return _c(
+                  "option",
+                  { key: person.id, domProps: { value: person.id } },
+                  [
+                    _vm._v(
+                      "\n                " +
+                        _vm._s(person.name) +
+                        "\n            "
+                    )
+                  ]
+                )
+              })
+            ],
+            2
+          )
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c(

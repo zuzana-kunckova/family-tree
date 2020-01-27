@@ -17,19 +17,32 @@
                 v-model="relationshipType"
                 >
                 <option></option>
-                <option>Parent</option>
-                <option>Child</option>
-                <option>Spouse</option>
+                <option value="PARENT_OF">Parent</option>
+                <option value="CHILD_OF">Child</option>
+                <option value="MARRIED_TO">Spouse</option>
             </select>
 
-            &nbsp; of
-            {{ relationshipType }}
+            of
 
             <select
                 name="related_to"
                 id="related_to"
                 class="block appearance-none w-1/3 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 mt-4 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
                 >
+                <option v-for="person in people" :key="person.id" :value="person.id">
+                    {{ person.name }}
+                </option>
+            </select>
+
+            <span v-if="addingTwo" class="block mt-4">and</span>
+
+            <select
+                name="related_to_2"
+                id="related_to_2"
+                class="block appearance-none w-1/3 bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 mt-4 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                v-if="addingTwo"
+                >
+                <option></option>
                 <option v-for="person in people" :key="person.id" :value="person.id">
                     {{ person.name }}
                 </option>
@@ -58,6 +71,12 @@
         },
 
         methods: {
-        }
+        },
+
+        computed: {
+            addingTwo: function () {
+                return this.relationshipType === 'CHILD_OF';
+            },
+        },
     }
 </script>

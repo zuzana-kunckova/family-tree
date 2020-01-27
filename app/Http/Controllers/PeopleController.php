@@ -42,29 +42,44 @@ class PeopleController extends Controller
     {
         $this->validate($request, [
             'name' => 'required',
-            'relationship' => 'required',
-            'related_to' => 'required',
+            'relationship' => 'required', // @todo: and that it's a valid relationship type
+            'related_to' => 'required', // @todo: and that it's a real id, and later someone i'm allowed to relate to
+            'related_to_2' => '', // @todo: and that it's a real id, and later someone i'm allowed to relate to
         ]);
 
         $person = Person::create(['name' => $request->name]);
+        $this->createNeo4jRecordForEloquentPerson($client, $person);
 
-        $relationship = [
-            'Parent' => '@todo',
-            'Child' => 'CHILD_OF',
-            'Spouse' => 'MARRIED_TO',
-        ][$request->relationship];
+        $this->relatePeople($client, $person->id, $request->input('related_to'), $request->input('relationship'));
 
+        if (request()->filled('related_to_2')) {
+            $this->relatePeople($client, $person->id, $request->input('related_to_2'), $request->input('relationship'));
+        }
+
+        return redirect()->route('people.index');
+    }
+
+    private function createNeo4jRecordForEloquentPerson(Neo4j $client, Person $person)
+    {
         $cypher = sprintf(
-            "CREATE (new_person:Person {name:'%s',eloquentId:%s})\n MERGE (related_to:Person {eloquentId:%s})\n MERGE (new_person)-[:%s]->(related_to)",
+            "CREATE (new_person:Person {name:'%s',eloquentId:%s})",
             $person->name,
             $person->id,
-            $request->related_to,
-            $relationship
         );
 
         $client->run($cypher);
+    }
 
-        return redirect()->route('people.index');
+    private function relatePeople(Neo4j $client, int $person1, int $person2, string $relationshipType)
+    {
+        $cypher = sprintf(
+            "MERGE (person1:Person {eloquentId:%s})\n MERGE (person2:Person {eloquentId:%s})\n MERGE (person1)-[:%s]->(person2)",
+            $person1,
+            $person2,
+            $relationshipType
+        );
+
+        $client->run($cypher);
     }
 
     /**
@@ -93,8 +108,6 @@ class PeopleController extends Controller
             'siblings' => $siblings->values()[0],
         ]);
     }
-
-
 
     /**
      * Show the form for editing the specified resource.
